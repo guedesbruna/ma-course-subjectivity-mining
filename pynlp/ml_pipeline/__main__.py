@@ -2,7 +2,7 @@ from ml_pipeline import experiment
 import argparse
 
 datasets = ['data/gibert/', 'data/OLID_full/levelA/' ]
-experiments = ['naive_bayes_counts','svm_libsvc_counts','cnn_raw']
+experiments = ['naive_bayes_counts','naive_bayes_tfidf', 'svm_libsvc_counts', 'svm_libsvc_tfidf', 'cnn_raw', 'cnn_prep']
 
 result = dict.fromkeys(datasets) 
 for dataset in datasets:
@@ -19,7 +19,7 @@ for dataset in datasets:
 
 # these are the options (see experiments.pipeline(name)). 
 #     'naive_bayes_counts'
-#     'naive_bayes_tdidf'
+#     'naive_bayes_tfidf'
 #     'svm_libsvc_counts'
 #     'svm_libsvc_tfidf'
 #     'svm_libsvc_embed' (word embeddings needed)
