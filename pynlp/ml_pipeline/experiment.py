@@ -2,9 +2,12 @@ import logging
 import sys
 
 from tasks import vua_format as vf
-from ml_pipeline import utils, cnn, preprocessing, pipeline_with_lexicon
+from ml_pipeline import utils, cnn, preprocessing, pipeline_with_lexicon,  utils_BG
 from ml_pipeline import pipelines
 from ml_pipeline.cnn import CNN, evaluate
+from sklearn.metrics.classification import classification_report
+import pandas as pd
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -44,8 +47,13 @@ def run(task_name, data_dir, pipeline_name, print_predictions):
 
     if print_predictions:
         logger.info('>> predictions')
-        utils.print_all_predictions(test_X_ref, test_y, sys_y, logger)
-
+        utils.print_all_predictions(test_X_ref, test_y, sys_y)
+    #save prediction
+    res =  utils_BG.result()
+    res.predictions = utils_BG.save_all_predictions(test_X_ref, test_y, sys_y)
+    #save classification report as a pandas dataframe
+    res.classification_report = pd.DataFrame.from_dict(classification_report(test_y, sys_y,output_dict=True))
+    return res
 
 def task(name):
     if name == 'vua_format':
@@ -78,9 +86,9 @@ def pipeline(name):
         return pipelines.svm_libsvc_embed()
     elif name == 'svm_sigmoid_embed':
         return pipelines.svm_sigmoid_embed()
+    elif name == 'naive_bayes_counts_lex':
+        return pipelines.naive_bayes_counts_lex()
     else:
         raise ValueError("pipeline name is unknown. You can add a custom pipeline in 'pipelines'")
-
-
 
 

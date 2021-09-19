@@ -126,3 +126,19 @@ def hate_lexicon():
         Dlex[entry]["label"] = label
         Dlex[entry]["pos"] = pos
     return Dlex
+
+
+def lexobj2():
+    Dlex={}
+    lex_name="../lexic/hatebase_dict_vua_format.csv"
+    df1=pd.read_csv(lex_name,sep=";")
+    #print("\ndataset:{}\tnr of rows:{}\tnr of columns:{}".format(lex_name, df1.shape[0], df1.shape[1]))
+
+    for i, row in df1.iterrows():
+        entry = df1.loc[i]['Entry']
+        pos = df1.loc[i]['Pos']
+        label = df1.loc[i]['Label']
+        Dlex[entry]={}
+        Dlex[entry]["label"]=label
+        Dlex[entry]["pos"] = pos
+    return Dlex
